@@ -1,0 +1,21 @@
+%head
+  %meta{name: "description", content: "Thesaurus"}
+  %meta{name: "keywords", content: "thesaurus, dictionary, lexicon, word, words, synonym"}
+
+  %meta{name: "viewport", content: "width=device-width, initial-scale=1.0"}
+
+  %title Interactive Thesaurus - Synonym Searcher
+
+  -# javascripts = %w(jquery-1.7.1.js)
+  - javascripts = %w(jquery.js bootstrap-dropdown.js jquery_ujs.js)
+  - javascripts << 'application.js'
+  = javascript_include_tag javascripts
+
+  = stylesheet_link_tag %w(bootstrap.css bootstrap-responsive.css)
+
+  = stylesheet_link_tag 'application.css'
+
+  = csrf_meta_tags
+
+  =# yield :head
+

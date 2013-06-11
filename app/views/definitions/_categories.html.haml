@@ -1,0 +1,31 @@
+
+- if definition
+  - xref ||= false
+
+  .btn-group
+    - each_category do |category, index|
+      - count = count_by_category xref, definition, category
+
+      - if count.zero? 
+        - if xref
+          - btn_class = nil
+        - else
+          - btn_class = 'disabled'
+      - elsif current?(selected_xref, xref, selected_category, category)
+        - btn_class = 'active'
+      - else
+        - btn_class = ''
+
+      - if btn_class
+        - text = count_by_category_text xref, count, category
+        - title = "Show the #{category} #{xref ? 'cross referenced ' : ''}associations for #{definition.word}"
+        = link_to text, path_to_linked_words(xref, definition, category),
+          remote: true, title: title,
+          class: "btn btn-mini #{button_class xref} #{btn_class}"
+
+    - total_count = total_count xref, definition
+    - if (1..100) === total_count
+      = link_to "#{total_count_text xref, total_count} in all",
+        path_to_linked_words(xref, definition),
+        title: "Show all associations for #{definition.word}",
+        class: "btn btn-mini #{button_class xref}"

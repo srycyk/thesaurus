@@ -1,0 +1,73 @@
+
+body {
+  margin: 7px;
+}
+
+.navbar {
+  margin-bottom: 2px;
+  padding-bottom: 5px;
+}
+
+.hero-unit-spacing {
+  padding: 5px 20px;
+}
+
+.hero-unit p {
+  font-size: 0.9em;
+}
+
+ul .selected-title {
+  margin: 1px 0;
+  padding: 0;
+}
+
+ul .selected-title {
+  margin: 7px 0;
+}
+
+ul .selected-title h6 {
+  margin: 0;
+  padding: 0;
+}
+
+ul .selected-item {
+  padding: 3px;
+}
+
+#word-label-radios {
+  margin: 0;
+  padding: 3px 5px 6px 8px;
+}
+
+.linked-words {
+  padding: 3px 5px;
+  margin: 7px 0px;
+}
+
+.error-text {
+  color: red;
+}
+
+.medium-font {
+  font-size: 1.0em;
+}
+.small-font {
+  font-size: 0.9em;
+}
+.smaller-font {
+  font-size: 0.8em;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.black {
+  color: black;
+}
+.grey {
+  color: grey;
+}
+.dark-grey {
+  color: #444;
+}

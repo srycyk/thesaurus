@@ -1,0 +1,21 @@
+!!!
+%html
+  = render 'layouts/head'
+
+  %body
+    .navbar
+      .navbar-inner
+        .container
+          %a.brand{href: '/'}
+            %strong
+              Interactive Thesaurus
+          %em.medium-font.pull-right
+            A semantic word store that shows sense
+    .row-fluid
+      .span2
+        #selected-panel
+          = render "selected"
+      .span10
+        #content
+          = yield
+

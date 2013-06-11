@@ -1,0 +1,18 @@
+
+- remote ||= false
+
+- xref ||= false
+
+- selected_category = @category || params[:category]
+
+#word-entry
+  = render 'find_form', definition: @definition, remote: remote,
+    error_message: @error_message
+
+  .btn-toolbar
+    - [ false, true ].each do |current_xref|
+      = render 'categories', definition: @definition,
+        selected_xref: xref, xref: current_xref,
+        selected_category: selected_category
+
+    = render 'phrases', definition: @definition

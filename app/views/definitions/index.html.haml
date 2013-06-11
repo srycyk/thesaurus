@@ -1,0 +1,12 @@
+
+= render 'word_entry', xref: @xref
+
+= render 'controls'
+
+= render 'word_labels'
+
+#linked-words-panel
+  - if @definition
+    = render 'all_linked_words', definition: @definition, xref: @xref
+  - else
+    = render 'splash'

@@ -1,0 +1,8 @@
+
+- xref ||= false
+
+- each_category do |category_name, _|
+  - counts = count_by_category xref, definition, category_name
+  - if counts.nonzero?
+    = render 'linked_words', xref: xref, definition: definition,
+      category: category_name

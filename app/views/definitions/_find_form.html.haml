@@ -1,0 +1,25 @@
+
+- remote ||= false
+
+- error_message ||= nil
+
+- form_class = 'form-inline'
+
+= form_tag definitions_find_path, remote: true, class: form_class do
+  %fieldset
+    %strong
+      Word/Term &nbsp;
+    = text_field_tag :word, params[:word] || definition.try(:name),
+      class: 'input-large search-query', id: 'word-input'
+    &nbsp;
+    = submit_tag 'Find', class: 'btn btn-success',
+      title: 'Search for the given word'
+
+    - if error_message
+      %em.error-text
+        &nbsp;
+        = error_message
+    - elsif definition
+      &nbsp;
+      = render 'word_title', definition: definition,
+        detail: :weight_and_counts

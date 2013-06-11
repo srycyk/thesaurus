@@ -1,0 +1,10 @@
+
+%span#buttons-panel
+  = link_to 'Random', definitions_random_path, remote: true,
+    class: 'btn btn-medium btn-info',
+    title: 'Pick out any word from the dictionary'
+  &nbsp;
+  = link_to 'Clear linked words', '#', id: 'clear-linked',
+    class: 'btn btn-medium btn-danger',
+    title: 'Remove all the lists of associated words'
+  &nbsp;

@@ -1,0 +1,18 @@
+
+- xref ||= false
+
+- html_class ||= "word-link"
+
+- html_class = "#{html_class} #{word.labels_to_s('unknown')}"
+
+- title = "#{word.name.titlecase} #{word.abb_labels_to_s}"
+
+- definition ||= word.definition
+- if definition
+  - path = definitions_show_path(id: definition)
+  - title << "- #{pluralize definition.word_links_count, 'link'}"
+  - title << " - weight: #{pc definition.weight}"
+  = link_to word, path, remote: true, class: html_class, title: title
+- else
+  %span{class: html_class, title: title}
+    = word

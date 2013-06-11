@@ -1,0 +1,8 @@
+
+%span#word-label-radios.well
+  - all_word_labels.each do |word_label|
+    = radio_button_tag 'word_label', word_label, false,
+      class: 'word-label-radio'
+    %strong.italic
+      = word_label_plural word_label
+    &nbsp;

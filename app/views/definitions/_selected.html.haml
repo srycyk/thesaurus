@@ -1,0 +1,27 @@
+
+#selected-list
+  %ul.unstyled
+    %li.selected-title
+      %h6= pluralize selected_definitions.size, 'selected word'
+
+    %li.selected-title
+      - unless selected_definition_ids.empty?
+        = link_to 'Clear', definitions_clear_selected_path,
+          class: 'btn btn-medium btn-danger',
+          id: 'clear-selected', remote: true,
+          title: 'Remove all previously chosen words'
+
+        = link_to 'Sort', definitions_sort_selected_path,
+          class: 'btn btn-medium btn-warning',
+          id: 'sort-selected', remote: true,
+          title: 'Display the previously chosen words in alphabetical order'
+
+    - selected_definitions.each do |definition|
+      %li.selected-item
+        = link_to '&times;'.html_safe,
+          definitions_remove_selected_path(id: definition),
+          class: 'remove-selected btn btn-mini btn-inverse',
+          remote: true, title: "Remove this word, #{definition.word}"
+
+        = render 'word_link', word: definition.word, definition: definition,
+          html_class: 'selected-word'

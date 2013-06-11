@@ -1,0 +1,6 @@
+
+$('#word-entry').html("<%= js_partial('word_entry', remote: true, xref: @xref) %>");
+
+$('#selected-list').replaceWith("<%= js_partial 'selected' %>");
+
+$('#linked-words-panel').prepend("<%= js_partial('linked_words', definition: @definition, category: @category, xref: @xref) %>");

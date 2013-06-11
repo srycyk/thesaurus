@@ -1,0 +1,22 @@
+
+- detail ||= :none
+
+- xref ||= false
+
+%span.word-title
+  %strong{class: "medium-font #{xref ? 'grey' : 'dark-grey'}"}
+    = definition.name.titlecase
+
+  %em.smaller-font
+    = definition.word.abb_labels_to_s
+    - case detail
+    - when :weight_and_counts
+      \- weight: #{pc definition.weight, 2} -
+      - [ false, true ].each do |current_xref|
+        - if current_xref
+          &middot;
+        %i= total_count_text current_xref, definition
+    - when :count_by_category
+      %i= count_by_category_text xref, definition, category
+    - when :phrase_count
+      %i= pluralize definition.phrases.count, 'phrase'

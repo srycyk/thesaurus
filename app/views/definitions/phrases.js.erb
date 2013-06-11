@@ -1,0 +1,7 @@
+
+$('#linked-words-panel').prepend("<%= js_partial('linked_words', definition: @definition, phrases: true) %>");
+
+$('#phrases-button').addClass('active');
+
+$('.category-button.active').removeClass('active');
+

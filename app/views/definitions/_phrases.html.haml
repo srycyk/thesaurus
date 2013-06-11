@@ -1,0 +1,22 @@
+
+- xref ||= false
+
+- if definition
+  - word = definition.word
+  - if definition.word.segments_count.nonzero?
+    .btn-group
+      - atts = { 'data-toggle' => 'dropdown',
+        'class' => "btn btn-mini btn-default dropdown-toggle" }
+      = link_to '#', atts do
+        = pluralize word.segments_count, 'word'
+        %span.caret
+      %ul.dropdown-menu
+        - word.word_parts.each do |word|
+          %li= render 'word_link', word: word, html_class: 'phrase-link'
+  - elsif ( phrase_size = definition.phrases.size).nonzero?
+    .btn-group
+      = link_to pluralize(phrase_size, 'phrase'),
+        definitions_phrases_path(id: definition),
+        remote: true, class: "btn btn-mini btn-default",
+        id: 'phrases-button', html_class: 'phrase-link',
+        title: "The phrases in which '#{definition.word}' appears"

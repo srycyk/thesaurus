@@ -1,0 +1,28 @@
+
+- if definition
+  - xref ||= false
+
+  - phrases ||= false
+
+  - category ||= nil
+
+  - if phrases
+    - words = definition.phrases.includes(:definition)
+    - detail = :phrase_count
+    - html_id = "#{dom_id definition}_phrases"
+  - else
+    - words = associated_words(xref, definition, category)
+    - detail = :count_by_category
+    - html_id = linked_words_id xref, definition, category
+
+  .linked-words.well.thumbnail{id: html_id}
+    %a.close{onclick: "$('##{html_id}').remove()"} &times;
+    .linked-words-title
+      = render 'word_title', definition: definition, xref: xref,
+        category: category, detail: detail
+    .linked-words-content
+      - first = true
+      - words.each_with_index do |word, index|
+        - if index.nonzero?
+          &middot;
+        = render 'word_link', word: word, xref: xref
