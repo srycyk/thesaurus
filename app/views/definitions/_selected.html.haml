@@ -18,9 +18,9 @@
 
     - selected_definitions.each do |definition|
       %li.selected-item
-        = link_to '&times;'.html_safe,
+        = link_to "<i class='icon-remove-sign'></i>".html_safe,
           definitions_remove_selected_path(id: definition),
-          class: 'remove-selected btn btn-mini btn-inverse',
+          class: 'remove-selected',
           remote: true, title: "Remove this word, #{definition.word}"
 
         = render 'word_link', word: definition.word, definition: definition,
