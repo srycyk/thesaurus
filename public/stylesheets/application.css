@@ -4,8 +4,9 @@ body {
 }
 
 .navbar {
-  margin-bottom: 2px;
-  padding-bottom: 5px;
+  padding-top: 5px;
+  margin-bottom: 5px;
+  padding-bottom: 10px;
 }
 
 .hero-unit-spacing {
@@ -47,6 +48,7 @@ ul .selected-item {
 #rab {
   border: 1px solid #ddd;
   padding-left: 5px;
+  padding-bottom: 2px;
   background-color: #eef;
   font-size: 0.9em;
 }
