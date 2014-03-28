@@ -8,6 +8,7 @@
 = form_tag definitions_find_path, remote: true, class: form_class do
   %fieldset
     %strong
+      %i.icon-search
       Word/Term &nbsp;
     = text_field_tag :word, params[:word] || definition.try(:name),
       class: 'input-large search-query', id: 'word-input'
@@ -21,5 +22,6 @@
         = error_message
     - elsif definition
       &nbsp;
+      %i.icon-info-sign
       = render 'word_title', definition: definition,
         detail: :weight_and_counts

@@ -18,6 +18,7 @@
   .linked-words.well.thumbnail{id: html_id}
     %a.close{onclick: "$('##{html_id}').remove()"} &times;
     .linked-words-title
+      %i.icon-list
       = render 'word_title', definition: definition, xref: xref,
         category: category, detail: detail
     .linked-words-content

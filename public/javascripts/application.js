@@ -41,4 +41,9 @@ $(function() {
 
   // Remove splash partial on user activity
   $('body').one('mousedown keypress', function() { $('#splash').remove(); })
+
+  // Display loading image for ajax requests
+  //$.ajaxStart(function() { $('#loading').show() });
+  $('[data-remote]').bind('ajaxStart', function() { $('#loading').show() });
+  $('[data-remote]').bind('ajaxSuccess ajaxError', function() { $('#loading').hide() });
 });

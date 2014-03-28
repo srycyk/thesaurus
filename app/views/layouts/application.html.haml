@@ -9,6 +9,8 @@
           %a.brand{href: '/'}
             %strong
               Interactive Thesaurus
+          - style = 'display: none'
+          = image_tag 'loading.gif', id: 'loading', style: style
           %em.medium-font.pull-right
             A semantic word store that shows sense
     .row-fluid

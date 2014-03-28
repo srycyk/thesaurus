@@ -2,7 +2,9 @@
 #selected-list
   %ul.unstyled
     %li.selected-title
-      %h6= pluralize selected_definitions.size, 'selected word'
+      %h6
+        %i.icon-list-alt
+        = pluralize selected_definitions.size, 'selected word'
 
     %li.selected-title
       - unless selected_definition_ids.empty?
