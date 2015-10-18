@@ -1,9 +1,9 @@
 
 # Word(id: integer, name: string, proper_name: boolean, noun: boolean, verb: boolean, adverb: boolean, adjective: boolean, typed: boolean, segments_count: integer)
 class Word < ActiveRecord::Base
-  WORD_LABELS = { 'proper_name' => 'name', 'name' => 'pn',
-                  'noun' => 'n', 'verb' => 'v',
-                  'adjective' => 'adj', 'adverb' => 'adv' }
+  WORD_LABELS = { 'noun' => 'n', 'verb' => 'v',
+                  'adjective' => 'adj', 'adverb' => 'adv',
+                  'proper_name' => 'proper name', 'name' => 'name' }
 
   has_one :definition
 
@@ -21,9 +21,13 @@ class Word < ActiveRecord::Base
 
   has_many :phrases, through: :segments, order: 'words.name' #, includes: :definitions
 
-  scope :with_name, lambda {|name| where name: name.downcase }
+  scope :with_name, -> name { where name: name.downcase }
 
-  scope :with_category, lambda {|category| where word_links: {category: category} }
+  scope :with_category, -> category { where word_links: {category: category} }
+
+  scope :with_labels, -> labels { where labels_to_where labels }
+
+  scope :sort_by_usage, -> { joins(:definition).order 'definitions.word_links_count DESC' }
 
 =begin
   scope :in_common, lambda {|d1, d2|
@@ -54,7 +58,7 @@ class Word < ActiveRecord::Base
   end
 
   def abb_labels_to_s
-    abb_labels.empty? ?  '' : "(#{abb_labels * ' '}) "
+    abb_labels.empty? ?  '' : "(#{abb_labels * ' '})"
   end
 
   def labels_to_s(unknown=nil, sep=' ')
@@ -65,14 +69,51 @@ class Word < ActiveRecord::Base
 
   def labels
     @labels ||= begin
-                 labels = []
-                 labels << 'name' if proper_name?
-                 labels << 'noun' if noun?
-                 labels << 'verb' if verb?
-                 labels << 'adjective' if adjective?
-                 labels << 'adverb' if adverb?
-                 labels
-               end
+                  labels = []
+                  labels << 'noun' if noun?
+                  labels << 'verb' if verb?
+                  labels << 'adjective' if adjective?
+                  labels << 'adverb' if adverb?
+                  labels << 'name' if proper_name?
+                  labels
+                end
+  end
+
+  class << self
+    ALL_LABELS = %w(name noun verb adjective adverb)
+
+    def labels_to_where(labels)
+      labels = labels_to_names labels
+
+      sql = ''
+
+      labels.each do |label|
+        sql << ' OR ' unless sql.blank?
+
+        sql << table_name << '.' << label << ' = ?'
+      end
+
+      return sql, *([true] * labels.size)
+    end
+
+    def labels_to_names(labels)
+      labels = labels.split(/,\s*/) if String === labels
+
+      (labels || []).map {|label| get_label label }
+            .select {|label| ALL_LABELS.include? label }
+    end
+
+    private
+
+    def get_label(label)
+      label = label.to_s
+
+      if WORD_LABELS.has_key? label
+        label
+      elsif WORD_LABELS.has_value? label
+        WORD_LABELS.key label
+      end
+    end
   end
 
   class << self

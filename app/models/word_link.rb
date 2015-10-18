@@ -9,23 +9,22 @@ class WordLink < ActiveRecord::Base
 
   belongs_to :word
 
-  scope :with_category, lambda {|category| where category: category.to_i }
+  scope :with_category, -> category { where category: category.to_i }
 
-  scope :with_category_name, lambda {|name| with_category category_index(name) }
+  scope :with_category_name, -> name { with_category category_index(name) }
 
-  scope :with_definition, lambda {|definition| where definition_id: definition.to_param }
+  scope :with_definition, -> definition { where definition_id: definition.to_param }
 
-  scope :with_word, lambda {|word| where word_id: word.to_param }
-  #scope :with_words, lambda {|words| where word_id: words.map(&:to_param) }
+  scope :with_word, -> word { where word_id: word.to_param }
+  #scope :with_words, -> words { where word_id: words.map(&:to_param) }
   
-  scope :sorted, joins(:word).order('words.name')
+  scope :sorted, -> { joins(:word).order('words.name') }
 
-  scope :select_word_counts, select('category, count(word_id) as word_count')
+  scope :select_word_counts, -> { select('category, count(word_id) as word_count') }
 
-  scope :select_definition_counts,
-        select('category, count(definition_id) as definition_count')
+  scope :select_definition_counts, -> { select('category, count(definition_id) as definition_count') }
 
-  #scope :include_words, includes(:word, definition: :word)
+  #scope :include_words, -> { includes(:word, definition: :word) }
 
 =begin
   CATEGORIES.each_with_index do |category, index|

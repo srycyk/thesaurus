@@ -118,8 +118,11 @@ describe Definition do
 
     it "renders json fields" do
       category = WordLink::CATEGORIES.sample
+
       json = definition.as_json(category: category)
-      expect(json['word']).to eq 'silliness'
+
+      expect(json['word']).to eq definition.word.as_json
+      expect(json['name']).to eq 'silliness'
       expect(json['category_name']).to eq category.to_s
       expect(json['category_id']).to eq WordLink.category_index(category)
       expect(json['definition_id']).to eq definition.id
@@ -129,8 +132,10 @@ describe Definition do
       #associated_words = definition.associated_words(false, WordLink.category_index(category))
       associated_words = DefinitionFactory.silliness_hash[category]
 #puts "associated_words = #{associated_words}"
-      expect(json['associated_count']).to eq associated_words.size
-      expect(json['associated']).to eq associated_words
+      expect(json["#{category}_count"]).to eq associated_words.size
+      expected_names = json[category.to_s].map {|atts| atts['name'] }
+      expect(expected_names).to eq associated_words
+      #expect(json[category.to_s].map &:name).to eq associated_words
     end
   end
 end

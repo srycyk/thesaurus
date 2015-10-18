@@ -101,6 +101,8 @@ class DefinitionsController < ApplicationController
   def template_renderer(options={})
     if is_json?
       options.merge! json: definition_json || @error_message
+
+      headers['Access-Control-Allow-Origin'] = "*"
     else
       xref!
     end
@@ -110,7 +112,11 @@ class DefinitionsController < ApplicationController
   def definition_json
     return unless @definition
 
-    @definition.as_json category: params[:category], xref: xref?
+    @definition.as_json category: params[:category],
+                        xref: xref?,
+                        by_usage: by_usage?,
+                        phrases: phrases?,
+                        labels: params[:labels] || []
   end
 
   def is_json?
@@ -126,7 +132,19 @@ class DefinitionsController < ApplicationController
   end
 
   def xrefed_params?
-    params.has_key?(:xref) and
-        not %w(0 f false).include?(params[:xref].to_s.downcase)
+    param_set? :xref
+  end
+
+  def by_usage?
+    param_set? :by_usage
+  end
+
+  def phrases?
+    param_set? :phrases
+  end
+
+  def param_set?(key)
+    params.has_key?(key) and
+        not %w(0 f false n no).include?(params[key].to_s.downcase)
   end
 end

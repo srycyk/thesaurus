@@ -7,13 +7,13 @@ class Definition < ActiveRecord::Base
 
   has_many :words, through: :word_links
 
-  scope :with_word, lambda {|word| where word_id: word.to_param }
+  scope :with_word, -> word { where word_id: word.to_param }
 
-  scope :with_id, lambda {|id| where id: id }
+  scope :with_id, -> id { where id: id }
 
-  scope :include_word, includes(:word)
+  scope :include_word, -> { includes(:word) }
 
-  scope :include_words, includes(:word, word_links: :word)
+  scope :include_words, -> { includes(:word, word_links: :word) }
 
   delegate :name, :phrases, to: :word
 
@@ -147,46 +147,15 @@ class Definition < ActiveRecord::Base
   end
 =end
 
-  #TODO return phrases as well
   def as_json(opts={})
-    opts.stringify_keys!
+    @serialiser ||= DefinitionSerializer.new self
 
-    xref = opts.delete('xref') || false
-
-    category = opts.delete('category') || :strong
-    category = if category.to_s =~ /^\d+$/
-                 category.to_i
-               else
-                 WordLink.category_index(category)
-               end
-
-    associated_words = associated_words xref, category
-
-    { "word" => word.name,
-      "category_name" => WordLink.category_to_s(category),
-      "category_id" => category,
-      "weight" => (weight * 100).round(3),
-      "labels" => word.labels,
-      "definition_id" => id,
-      "word_count" => word_links_count,
-      "word_counts" => counts,
-      "xref_word_count" => xref_count_total,
-      "xref_word_counts" => xref_counts,
-      "xref" => xref,
-      "associated_count" => associated_words.size,
-      "associated" => associated_words }.merge! opts
+    @serialiser.as_json opts
   end
+
 
   def to_s
     "#{word}: #{word_links.map(&:to_s) * ', '}"
-  end
-
-  def associated_words(xref, category)
-    if xref
-      word.words.with_category(category)
-    else
-      words.with_category(category)
-    end.map &:name
   end
 
   # Batch job for loading db from gzipped csv file

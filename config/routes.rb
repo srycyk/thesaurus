@@ -4,7 +4,7 @@ Thesaurus::Application.routes.draw do
 
   match "definitions/find", via: %w(post get)
 
-  get "definitions/show"
+  match "definitions/show", via: %w(post get)
 
   get "definitions/random"
 
