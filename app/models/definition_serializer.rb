@@ -22,6 +22,8 @@ class DefinitionSerializer
   end
 
   def fields
+    associated = phrases? ? [] : associated_words
+
     { "name" => definition.word.name,
       "word" => definition.word.as_json,
       "category_name" => category_name,
@@ -35,12 +37,14 @@ class DefinitionSerializer
       "xref_word_count" => definition.xref_count_total,
       "xref_word_counts" => definition.xref_counts,
       "_xref" => xref?,
+      "_phrases" => phrases?,
+      "_labels" => labels?,
       "_ordered_by_usage" => ordered_by_usage?,
       "_associated_labels" => associated_labels,
       "phrase_count" =>  phrase_count,
       "phrases" => phrases,
-      "#{category_key}_count" => associated_words.size,
-      "#{category_key}" => associated_words
+      "#{category_key}_count" => associated.size,
+      "#{category_key}" => associated
     }
   end
 
@@ -68,7 +72,6 @@ class DefinitionSerializer
     relation = relation.with_labels labels if labels
 
     relation.map &:as_json
-    #relation.to_a
   end
 
   def associated_words
@@ -93,7 +96,7 @@ class DefinitionSerializer
   end
 
   def xref?
-    opts['xref'] or false
+    opts['xref'] ? true : false
   end
 
   def category_key
@@ -109,7 +112,7 @@ class DefinitionSerializer
   end
 
   def ordered_by_usage?
-    opts['by_usage'] || false
+    opts['by_usage'] ? true : false
   end
 
   def associated_labels
@@ -117,6 +120,10 @@ class DefinitionSerializer
   end
 
   def phrases?
-    opts['phrases'] || false
+    opts['phrases'] ? true : false
+  end
+
+  def labels?
+    opts['labels'].blank? ? false : true
   end
 end
