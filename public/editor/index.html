@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Semantic Editor</title>
+
+    <link href="lib/css/bootstrap.css" rel="stylesheet"/>
+    <!--
+    <link href="lib/css/bootstrap-theme.css" rel="stylesheet"/>
+    -->
+  </head>
+
+  <body>
+    <div class="container" id="content">
+      <div id="react-app"></div>
+    </div>
+
+    <script src="lib/js/jquery.js"></script>
+    <script src="lib/js/bootstrap.js"></script>
+    <script src="lib/js/react.js"></script>
+    <script src="lib/js/react-dom.js"></script>
+    <!--
+    <script src="lib/js/react-bootstrap.js"></script>
+    -->
+
+    <script src="js/util.js"></script>
+    <script src="js/app.js"></script>
+
+    <script type="text/javascript">
+       window.onload = function() {
+                         ReactDOM.render(React.createElement(ThesaurusPane),
+                                  document.getElementById('react-app'))
+                       }
+    </script>
+  </body>
+</html>
+
