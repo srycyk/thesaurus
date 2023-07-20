@@ -3,7 +3,7 @@
 
 - if definition
   - word = definition.word
-  - if definition.word.segments_count.nonzero?
+  - if word.segments_count.nonzero?
     .btn-group
       - atts = { 'data-toggle' => 'dropdown',
         'class' => "btn btn-mini btn-default dropdown-toggle" }
@@ -13,7 +13,7 @@
       %ul.dropdown-menu
         - word.word_parts.each do |word|
           %li= render 'word_link', word: word, html_class: 'phrase-link'
-  - elsif ( phrase_size = definition.phrases.size).nonzero?
+  - elsif ( phrase_size = definition.phrases.to_a.size).nonzero?
     .btn-group
       = link_to pluralize(phrase_size, 'phrase'),
         definitions_phrases_path(id: definition),
